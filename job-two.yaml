@@ -1,7 +1,22 @@
----
-- name: Job two
+- name: Terraform apply
   hosts: localhost
+  gather_facts: false
+  vars:
+    project_dir: /tmp/tf
   tasks:
-    - name: Print var from job one
+    - name: Decode plan contents
+      ansible.builtin.copy:
+        dest: "{{ project_dir }}/tfplan"
+        content: "{{ tfplan | b64decode }}"
+
+    - name: Apply plan
+      cloud.terraform.terraform:
+        force_init: true
+        project_path: '{{ project_dir }}'
+        state: present
+        plan_file: "./tfplan"
+      register: apply_result
+
+    - name: Log stdout for review
       ansible.builtin.debug:
-        msg: "{{ my_var }}"
+        msg: "{{ apply_result.stdout_lines }}"
