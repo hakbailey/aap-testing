@@ -4,6 +4,11 @@
   vars:
     project_dir: /tmp/tf
   tasks:
+    - name: Copy terraform files to project dir
+      ansible.builtin.copy:
+        src: tf
+        dest: /tmp
+
     - name: Decode plan contents
       ansible.builtin.copy:
         dest: "{{ project_dir }}/tfplan"
