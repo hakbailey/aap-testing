@@ -1,0 +1,8 @@
+---
+- name: Job one
+  hosts: localhost
+  tasks:
+    - name: Set stats
+      ansible.builtin.set_stats:
+        data:
+          my_var: "Some text"
