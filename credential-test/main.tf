@@ -8,23 +8,23 @@ terraform {
   }
 }
 
-variable "host_name" {
-  type = string
-}
+# variable "host_name" {
+#   type = string
+# }
 
-variable "host_ip" {
-  type = string
-}
+# variable "host_ip" {
+#   type = string
+# }
 
-variable "host_user" {
-  type = string
-}
+# variable "host_user" {
+#   type = string
+# }
 
 resource "ansible_host" "my_ec2" {
-  name   = var.host_name
+  name   = "mynewhost"
   groups = ["fedora"]
   variables = {
-    ansible_user  = var.host_user
-    ansible_host  = var.host_ip
+    ansible_user  = "ansible"
+    ansible_host  = "127.0.0.1"
   }
 }
