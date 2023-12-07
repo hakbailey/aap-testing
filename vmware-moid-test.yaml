@@ -1,0 +1,17 @@
+---
+- name: Testing
+  gather_facts: false
+  hosts: localhost
+  tasks:
+
+    - name: Set connection info
+      ansible.builtin.set_fact:
+        connection_args:
+          vcenter_hostname: "{{ vcenter_host }}"
+          vcenter_username: "{{ vcenter_user }}"
+          vcenter_password: "{{ vcenter_pass }}"
+          vcenter_validate_certs: false
+
+    - name: Lookup MoID of the object
+      ansible.builtin.debug:
+        msg: "{{ lookup('vmware.vmware_rest.datacenter_moid', 'test', **connection_args) }}"
