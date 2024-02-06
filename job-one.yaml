@@ -22,7 +22,6 @@
     - name: Stash plan for later use
       cloud.terraform.plan_stash:
         path: "{{ project_dir }}/tfplan"
-        per_host: true
 
     - name: Log diff for review
       ansible.builtin.debug:
