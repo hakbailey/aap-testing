@@ -15,20 +15,15 @@
         force_init: true
         project_path: "{{ project_dir }}"
         state: present
-        plan_file: "./tfplan"
+        plan_file: "{{ project_dir }}/tfplan"
       check_mode: true
       register: plan_result
 
-    - name: Get base64-encoded plan file contents
-      ansible.builtin.slurp:
-        src: "{{ project_dir }}/tfplan"
-      register: slurp_result
-
-    - name: Add encoded plan contents to stats
-      ansible.builtin.set_stats:
-        data:
-          tfplan: "{{ slurp_result.content }}"
+    - name: Stash plan for later use
+      cloud.terraform.plan_stash:
+        path: "{{ project_dir }}/tfplan"
+        per_host: true
 
     - name: Log diff for review
       ansible.builtin.debug:
-        msg: "{{ plan_result.diff }}"
+        msg: "{{ plan_result }}"

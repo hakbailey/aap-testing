@@ -12,14 +12,14 @@
     - name: Decode plan contents
       ansible.builtin.copy:
         dest: "{{ project_dir }}/tfplan"
-        content: "{{ tfplan | b64decode }}"
+        content: "{{ terraform_plan | b64decode }}"
 
     - name: Apply plan
       cloud.terraform.terraform:
         force_init: true
         project_path: '{{ project_dir }}'
         state: present
-        plan_file: "./tfplan"
+        plan_file: "{{ project_dir }}/tfplan"
       register: apply_result
 
     - name: Log stdout for review
