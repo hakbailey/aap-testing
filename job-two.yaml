@@ -9,10 +9,10 @@
         src: tf
         dest: /tmp
 
-    - name: Decode plan contents
-      ansible.builtin.copy:
-        dest: "{{ project_dir }}/tfplan"
-        content: "{{ terraform_plan | b64decode }}"
+    - name: Get stashed plan
+      cloud.terraform.plan_stash:
+        state: load
+        path: "{{ project_dir }}/tfplan"
 
     - name: Apply plan
       cloud.terraform.terraform:
